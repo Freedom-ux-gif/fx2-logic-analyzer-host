@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>逻辑分析仪 · Logic Analyzer</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<noscript>
+  <div class="noscript-tip">需要启用 JavaScript 才能使用逻辑分析仪界面。</div>
+</noscript>
+
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◉</span>
+      <div class="brand-text">
+        <strong>逻辑分析仪</strong>
+        <small>Logic Analyzer · 8 通道</small>
+      </div>
+    </div>
+
+    <span id="device-badge" class="badge badge-idle" title="设备状态">● 检测中</span>
+
+    <div class="toolbar">
+      <label class="field">
+        <span>采样率</span>
+        <select id="rate-select">
+          <option value="24000000">24 MHz</option>
+          <option value="16000000">16 MHz</option>
+          <option value="12000000">12 MHz</option>
+          <option value="8000000">8 MHz</option>
+          <option value="4000000">4 MHz</option>
+          <option value="2000000">2 MHz</option>
+          <option value="1000000" selected>1 MHz</option>
+          <option value="500000">500 kHz</option>
+          <option value="250000">250 kHz</option>
+          <option value="200000">200 kHz</option>
+        </select>
+      </label>
+      <label class="field field-narrow">
+        <span>时长 (s)</span>
+        <input id="seconds-input" type="number" value="1" min="0.01" max="30" step="0.1">
+      </label>
+      <button id="btn-capture" class="btn btn-primary" type="button">▶ 开始采集</button>
+      <button id="btn-stop" class="btn" type="button" disabled>■ 停止</button>
+      <button id="btn-theme" class="btn btn-icon" type="button" title="切换主题">◐ 主题</button>
+    </div>
+  </header>
+
+  <div class="progress-track" id="progress-track" hidden><div class="progress-bar" id="progress-bar"></div></div>
+  <div id="device-banner" class="banner banner-warn" hidden>设备未初始化，请先启动一次 Logic.exe</div>
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+  <main class="workspace">
+    <section id="wave-panel" class="panel wave-panel">
+      <div class="panel-head">
+        <h2>波形 <span class="subtle">Waveform</span></h2>
+        <div class="wave-tools">
+          <label class="toggle" title="打开后显示触发条件表单">
+            <input id="trigger-toggle" type="checkbox">
+            <span>触发采集</span>
+          </label>
+          <button id="btn-decoder" class="btn btn-small" type="button">⚙ 协议解码</button>
+          <button id="btn-reset" class="btn btn-small" type="button">⟲ 全览</button>
+        </div>
+      </div>
+
+      <div id="trigger-box" class="trigger-box" hidden>
+        <div class="trigger-grid">
+          <label class="field"><span>类型</span>
+            <select id="trig-type">
+              <option value="edge_rising">上升沿</option>
+              <option value="edge_falling">下降沿</option>
+              <option value="edge_both">双边沿</option>
+              <option value="level_high">高电平</option>
+              <option value="level_low">低电平</option>
+              <option value="pulse_width">脉宽</option>
+            </select>
+          </label>
+          <label class="field"><span>通道</span>
+            <select id="trig-channel"></select>
+          </label>
+          <label class="field"><span>参数</span>
+            <input id="trig-param" type="number" value="0" step="1" title="脉宽模式下为样本数">
+          </label>
+          <label class="field"><span>预触发比例</span>
+            <input id="trig-pre" type="number" value="0.5" min="0" max="1" step="0.05">
+          </label>
+        </div>
+      </div>
+
+      <div id="canvas-wrap" class="canvas-wrap">
+        <canvas id="wave-canvas"></canvas>
+        <div id="wave-empty" class="wave-empty">尚无数据 · 点击「开始采集」获取波形</div>
+      </div>
+      <div class="hint-row">滚轮缩放 · 右键/空格拖动平移 · 左键放置光标 · 双击复位</div>
+    </section>
+
+    <aside id="sidebar" class="panel sidebar">
+      <div class="panel-head"><h2>通道 <span class="subtle">Channels</span></h2></div>
+      <div id="channel-list" class="channel-list"></div>
+      <div class="panel-head measure-head"><h2>测量 <span class="subtle">Measurements</span></h2></div>
+      <div id="measure-list" class="measure-list"><div class="empty-note">采集后显示测量结果</div></div>
+    </aside>
+  </main>
+
+  <section id="decoder-panel" class="decoder-panel" hidden>
+    <div class="decoder-head">
+      <h2>协议解码 <span class="subtle">Protocol Decoder</span></h2>
+      <button id="btn-decoder-close" class="btn btn-icon btn-small" type="button" title="收起">✕</button>
+    </div>
+    <div class="decoder-body">
+      <div class="decoder-form">
+        <label class="field"><span>协议</span>
+          <select id="proto-select">
+            <option value="uart">UART</option>
+            <option value="i2c">I2C</option>
+            <option value="spi">SPI</option>
+            <option value="can">CAN</option>
+          </select>
+        </label>
+        <div id="proto-params" class="proto-params"></div>
+        <button id="btn-decode" class="btn btn-primary btn-small" type="button">解码</button>
+      </div>
+      <div class="decoder-result">
+        <table class="event-table">
+          <thead><tr><th>#</th><th>类型</th><th>起始样本</th><th>时间</th><th>内容</th></tr></thead>
+          <tbody id="event-tbody"><tr><td colspan="5" class="empty-note">暂无解码结果</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="statusbar">
+    <span id="stat-samples">样本: —</span>
+    <span id="stat-duration">时长: —</span>
+    <span id="stat-view">视图: —</span>
+    <span id="stat-cursor">光标: —</span>
+    <span id="stat-path" class="path-field" title="保存路径">路径: —</span>
+    <button id="btn-open-folder" class="btn btn-small" type="button" disabled>📁 打开文件夹</button>
+  </footer>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

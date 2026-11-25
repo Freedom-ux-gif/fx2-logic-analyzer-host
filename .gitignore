@@ -1,0 +1,47 @@
+# === 原厂程序产物：绝不入库（Git 历史无法删除，一次误提交即永久泄漏）===
+Logic_dumped.exe
+*.dumped.exe
+tools/obf.asm
+tools/startfn.txt
+tools/rfrdump*.txt
+06_disasm/*.asm
+01_sdk/exports_*.json
+
+# === 构建产物 ===
+build/
+dist/
+dist_app/
+*.spec
+*.pkg
+PYZ-*.pyz
+base_library.zip
+__pycache__/
+*.pyc
+*.pyo
+
+# === 采集数据 / 日志 / 临时输出 ===
+*.bin
+*.npy
+*.jsonl
+*.vcd
+logs/
+*.log
+/wave_*.csv
+
+# === 本地环境 / 隐私 ===
+.vscode/
+.idea/
+*.bak
+*~ 
+.DS_Store
+Thumbs.db
+settings.xml
+
+# === 发布副本自身 ===
+/逻辑分析仪发布副本/
+
+# --- 说明 ---
+# 1. 原厂程序内存镜像（Logic_dumped.exe）与其反汇编片段不随本仓库分发：
+#    它们是原厂软件的衍生物，不是本项目成果。本项目只分发自研代码与原创分析。
+# 2. 本项目不含任何原厂二进制、DLL、安装包或其逐字节副本。
+# 3. 采集样本与 frida 抓包日志体积大且无阅读价值，结论已整理为 markdown。

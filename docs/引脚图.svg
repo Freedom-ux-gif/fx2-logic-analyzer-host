@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420"
+     role="img" aria-labelledby="t d">
+  <title id="t">逻辑分析仪引脚分布示意图</title>
+  <desc id="d">克隆版 Saleae Logic（VID 0925 PID 3881）的接线端子引脚分布：一侧为 GND 与 CH7 至 CH0 共九个引脚，另一侧为 Power。信号通道 CHn 对应数据字节的 bitn（CH0 对应 bit0）。</desc>
+
+  <style>
+    .bg     { fill:#f7f8fa; }
+    .board  { fill:#2b2f36; stroke:#1a1d22; stroke-width:2; }
+    .label  { fill:#e8eaed; }
+    .pin    { fill:#c9ced6; }
+    .hole   { fill:#15181c; }
+    .axis   { fill:#5f6672; font-size:12px; }
+    .note   { fill:#8b93a1; font-size:12px; }
+    .warn   { fill:#c2410c; font-size:12px; font-weight:600; }
+    .ch     { fill:#0d7d6f; font-weight:600; }
+    .gnd    { fill:#8b93a1; }
+    .pwr    { fill:#b45309; font-weight:600; }
+    .usb    { fill:#4b5563; }
+    text   { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="760" height="420" rx="10"/>
+
+  <!-- 标题 -->
+  <text x="380" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2430">逻辑分析仪接线端子示意</text>
+  <text x="380" y="54" text-anchor="middle" class="note">克隆版 Saleae Logic · VID:PID 0925:3881 · 8 通道纯数字</text>
+
+  <!-- 板体 -->
+  <rect class="board" x="150" y="110" width="460" height="215" rx="12"/>
+
+  <!-- 丝印文字 -->
+  <text x="380" y="142" text-anchor="middle" class="label" font-size="13" font-weight="600">LOGIC ANALYZER</text>
+  <text x="380" y="162" text-anchor="middle" class="label" font-size="11">24MHz · 8CH</text>
+
+  <!-- 左侧端子区（信号 + GND） -->
+  <rect x="168" y="180" width="196" height="122" rx="4" fill="#1e2228" stroke="#3d444f"/>
+  <text x="266" y="198" text-anchor="middle" class="note" font-size="10">SIGNAL HEADER</text>
+
+  <!-- 9 个引脚：GND, CH7..CH0 -->
+  <!-- 每个引脚 = 方孔 + 短引线 -->
+  <g>
+    <!-- GND -->
+    <rect class="pin"  x="180" y="210" width="14" height="14" rx="2"/>
+    <rect class="hole" x="184" y="214" width="6"  height="6"  rx="1"/>
+    <text x="200" y="221" class="gnd" font-size="10">GND</text>
+
+    <!-- CH7..CH0 -->
+    <rect class="pin"  x="180" y="238" width="14" height="14" rx="2"/>
+    <rect class="hole" x="184" y="242" width="6"  height="6"  rx="1"/>
+    <text x="200" y="249" class="ch" font-size="10">CH7</text>
+
+    <rect class="pin"  x="180" y="266" width="14" height="14" rx="2"/>
+    <rect class="hole" x="184" y="270" width="6"  height="6"  rx="1"/>
+    <text x="200" y="277" class="ch" font-size="10">CH6</text>
+
+    <rect class="pin"  x="264" y="210" width="14" height="14" rx="2"/>
+    <rect class="hole" x="268" y="214" width="6"  height="6"  rx="1"/>
+    <text x="284" y="221" class="ch" font-size="10">CH5</text>
+
+    <rect class="pin"  x="264" y="238" width="14" height="14" rx="2"/>
+    <rect class="hole" x="268" y="242" width="6"  height="6"  rx="1"/>
+    <text x="284" y="249" class="ch" font-size="10">CH4</text>
+
+    <rect class="pin"  x="264" y="266" width="14" height="14" rx="2"/>
+    <rect class="hole" x="268" y="270" width="6"  height="6"  rx="1"/>
+    <text x="284" y="277" class="ch" font-size="10">CH3</text>
+
+    <rect class="pin"  x="348" y="210" width="14" height="14" rx="2"/>
+    <rect class="hole" x="352" y="214" width="6"  height="6"  rx="1"/>
+    <text x="368" y="221" class="ch" font-size="10">CH2</text>
+
+    <rect class="pin"  x="348" y="238" width="14" height="14" rx="2"/>
+    <rect class="hole" x="352" y="242" width="6"  height="6"  rx="1"/>
+    <text x="368" y="249" class="ch" font-size="10">CH1</text>
+
+    <rect class="pin"  x="348" y="266" width="14" height="14" rx="2"/>
+    <rect class="hole" x="352" y="270" width="6"  height="6"  rx="1"/>
+    <text x="368" y="277" class="ch" font-size="10">CH0</text>
+  </g>
+
+  <!-- 右侧 Power 区 -->
+  <rect x="410" y="212" width="56" height="56" rx="4" fill="#1e2228" stroke="#3d444f"/>
+  <rect class="pin"  x="424" y="224" width="14" height="14" rx="2"/>
+  <rect class="hole" x="428" y="228" width="6"  height="6"  rx="1"/>
+  <text x="440" y="252" class="pwr" font-size="10">PWR</text>
+
+  <!-- USB 口（移出板体右侧，避免文字被压） -->
+  <rect class="usb" x="626" y="196" width="46" height="34" rx="4"/>
+  <text x="649" y="218" text-anchor="middle" fill="#ffffff" font-size="9">USB</text>
+  <text x="649" y="248" text-anchor="middle" class="note" font-size="10">Micro-B</text>
+
+  <!-- 引线示意 -->
+  <path d="M 168 240 L 118 240" stroke="#9aa3b0" stroke-width="2" fill="none"/>
+  <path d="M 610 213 L 626 213" stroke="#9aa3b0" stroke-width="2" fill="none"/>
+
+  <!-- 底部说明 -->
+  <line x1="60" y1="352" x2="700" y2="352" stroke="#dbe0e6" stroke-width="1"/>
+
+  <text x="60" y="376" class="axis" font-weight="600">通道映射（实测，勿照搬 sigrok 文档）</text>
+  <text x="60" y="394" class="note">CHn → bitn：CH0 取数据字节的 bit0，CH7 取 bit7。未接线通道读作高电平（内部上拉），故空闲字节常为 0xFF。</text>
+
+  <text x="60" y="412" class="warn">注意：丝印端子顺序因批次而异，接线前请以实物丝印与万用表通断为准，不要只按本图。</text>
+
+</svg>
